@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.modules.kv.dao.MessageDao">
+    <!-- 根据会员ID获取消息 -->
+	<select id="getMessageList" resultType="Message">
+		SELECT
+		id,title,content,sender,recipient,type,status,member_id AS "memberId",create_date AS "createDate"
+		FROM kv_message k
+		WHERE member_id = #{memberId} ORDER BY k.create_date DESC
+	</select>
+	
+	
+	<sql id="messageColumns">
+		a.id,
+		a.title,
+		a.member_id,
+		a.content,
+		a.create_date,
+		a.sender,
+		a.recipient,
+		a.sender,
+		a.type,
+		a.status,
+		a.isagree
+	</sql>
+	
+	<select id="get" resultType="Message">
+		SELECT
+			<include refid="messageColumns"/>
+		FROM kv_message a
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	<update id="update">
+		UPDATE kv_message SET
+		title = #{title},
+		content = #{content},
+		member_id = #{memberId},
+		sender = #{sender},
+		recipient = #{recipient},
+		type = #{type},
+		isagree=#{isagree},
+		status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO kv_message(
+			id,
+			title,
+			content,
+			create_date,
+			member_id,
+			sender,
+			recipient,
+			type,
+			isagree,
+			status
+		) VALUES (
+			#{id},
+			#{title},
+			#{content},
+			now(),
+			#{memberId},
+			#{sender},
+			#{recipient},
+			#{type},
+			#{isagree},
+			#{status}
+		)
+	</insert>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

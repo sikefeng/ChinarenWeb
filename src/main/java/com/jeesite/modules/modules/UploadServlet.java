@@ -23,8 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-//@Controller
-//@RequestMapping("/api/member")
+
 @WebServlet("/UploadServlet.do")
 public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -32,9 +31,12 @@ public class UploadServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String path1 = Constants.ROOT_FILE_PATH + Constants.ACCOUNTAVATAR_FOLDER;
-        System.out.println("================"+path1);
+//        System.out.println("================"+path1);
 //        String path = uploadPicture(request, Constants.ACCOUNTAVATAR_FOLDER, "", "", Constants.P_TX);
-
+        File dir=new File(path1);
+        if (!dir.exists()){
+            dir.mkdirs();
+        }
 
         // 判断上传表单是否为multipart/form-data类型
         HttpSession session = request.getSession();
@@ -49,7 +51,6 @@ public class UploadServlet extends HttpServlet {
                 sfu.setSizeMax(10 * 1024 * 1024);// 以byte为单位 不能超过10M 1024byte =
                 // 1kb 1024kb=1M 1024M = 1G
                 sfu.setHeaderEncoding("utf-8");
-
                 // 3.
                 // 调用ServletFileUpload.parseRequest方法解析request对象，得到一个保存了所有上传内容的List对象。
                 @SuppressWarnings("unchecked")
@@ -86,7 +87,7 @@ public class UploadServlet extends HttpServlet {
                         }
                         System.out.println(file.getAbsolutePath());
                         fileItem.write(file);
-
+                        System.out.println("http://127.0.0.1:8080/photo/"+newFileName);
                         // 6. 调用FileItem的delete()方法，删除临时文件
                         fileItem.delete();
 
