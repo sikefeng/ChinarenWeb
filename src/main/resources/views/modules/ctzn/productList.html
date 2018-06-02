@@ -1,0 +1,126 @@
+<% layout('/layouts/default.html', {title: '产品列表', libs: ['dataGrid']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-user"></i> 产品列表
+            </div>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i>
+                    ${text('查询')}</a>
+                <% if(hasPermi('test:testData:edit')){ %>
+                <a href="${ctx}/ctzn/product/form" class="btn btn-default btnTool" title="${text('新增数据')}"><i
+                        class="fa fa-plus"></i> ${text('新增')}</a>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="box-body">
+            <#form:form id="searchForm" model="${product}" action="${ctx}/ctzn/product/listData" method="post" class="form-inline "
+                    data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+                <div class="form-group">
+                    <label class="control-label">产品名称：</label>
+                    <div class="control-inline">
+                        <#form:input path="proName" maxlength="100" class="form-control width-90"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">产品型号：</label>
+                    <div class="control-inline">
+                        <#form:input path="proPicture" maxlength="11" class="form-control width-90"/>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label class="control-label">状态：</label>-->
+                <!--<div class="control-inline width-90">-->
+                <!--<#form:select path="status" dictType="sys_user_status" blankOption="true" class="form-control"/>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </#form:form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</div>
+<% var userType = isNotBlank(parameter.userType)?parameter.userType:'employee'; %>
+<div class="hide">
+    <#form:listselect id="userSelect" title="用户选择"
+            url="${ctx}/sys/user/userSelect?userType=${userType}" allowClear="false"
+            checkbox="false" itemCode="userCode" itemName="userName"/>
+</div>
+<% } %>
+<script>
+    // 初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+//            {header:'昵称', name:'nickname', index:'a.nickname', width:200, align:"center",  formatter: function(val, obj, row, act){
+//                    // return '<a href="${ctx}/sys/secAdmin/form?userCode='+row.userCode+'" class="btnList" data-title="管理数据权限">'+(val||row.id)+'</a>';
+//                }},
+            {header: '产品名称', name: 'proName', index: 'a.pro_name', width: 50, align: "center"},
+            {
+                header: '产品图片',
+                name: 'proPicture',
+                index: 'a.pro_picture',
+                width: 50,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    return '<img src="' + val + '"style="width:50px;height:50px;"/>';
+                }
+            },
+            {
+                header: '产品二维码',
+                name: 'proPicture',
+                index: 'a.pro_picture',
+                width: 50,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    return '<img src="${ctx}/ctzn/product/getQRCode" style="width:50px;height:50px;"/>';
+                }
+            },
+            {header: '产品型号', name: 'proModel', index: 'a.pro_model', width: 50, align: "center"},
+            {header: '产品分享次数', name: 'proShareCount', index: 'a.pro_share_count', width: 50, align: "center"},
+            {header:'${text('产品反馈')}', name:'', index:'${text('产品反馈')}', width:50, align:"center", frozen:true, formatter: function(val, obj, row, act){
+                return '<a href="${ctx}/ctzn/feedback/list?proId='+row.id+'" class="btnList" title="${text('产品反馈')}">产品反馈</a>';
+            }},
+            {header: '更新时间', name: 'updateDate', index: 'a.update_date', width: 50, align: "center"},
+            {header:'${text('操作')}', name:'actions', width:100, sortable:false, title:false, formatter: function(val, obj, row, act){
+                var actions = [];
+            <% if(hasPermi('sys:post:edit')){ %>
+                    actions.push('<a href="${ctx}/ctzn/product/form?id='+row.id+'" class="btnList" title="${text('编辑产品')}"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    if (row.status == Global.STATUS_NORMAL){
+                        actions.push('<a href="${ctx}/ctzn/product/disable?id='+row.id+'" class="btnList" title="${text('停用产品')}" data-confirm="${text('确认要停用该产品吗？')}"><i class="glyphicon glyphicon-ban-circle"></i></a>&nbsp;');
+                    }
+                    if (row.status == Global.STATUS_DISABLE){
+                        actions.push('<a href="${ctx}/ctzn/product/enable?id='+row.id+'" class="btnList" title="${text('启用产品')}" data-confirm="${text('确认要启用该产品吗？')}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+                    }
+                    actions.push('<a href="${ctx}/ctzn/product/delete?id='+row.id+'" class="btnList" title="${text('删除产品')}" data-confirm="${text('确认要删除该产品吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                <% } %>
+                return actions.join('');
+            }}
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+    $('#btnAddAdmin').click(function () {
+        $('#userSelectName').click();
+    });
+
+    function listselectCallback(id, action, index, layero) {
+        if (id == 'userSelect' && action == 'ok') {
+            if ($('#userSelectCode').val() != '') {
+                js.addTabPage(null, '二级管理员授权',
+                    '${ctx}/sys/secAdmin/form?userCode='
+                    + $('#userSelectCode').val());
+            } else {
+                js.showMessage('请选择需要设置为二级管理员的用户');
+            }
+        }
+    }
+</script>

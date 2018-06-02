@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<scope>provided</scope><!--compile-->
 		</dependency>
 		
 		<!-- 核心模块 -->
@@ -42,7 +42,17 @@
 			<artifactId>jeesite-module-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
+		<!-- 二维码生成 -->
+		<!--<dependency>-->
+			<!--<groupId>com.google.zxing</groupId>-->
+			<!--<artifactId>core</artifactId>-->
+			<!--<version>3.0.0</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>com.google.zxing</groupId>-->
+			<!--<artifactId>javase</artifactId>-->
+			<!--<version>3.0.0</version>-->
+		<!--</dependency>-->
 		<!-- 内容管理模块 
 		<dependency>
 			<groupId>com.jeesite</groupId>

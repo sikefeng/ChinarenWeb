@@ -4,7 +4,7 @@
 #============================#
 
 # 产品或项目名称、版本、版权年份
-productName: JeeSite Demo
+productName: 深圳前海超体智能科技有限公司
 productVersion: V4.0
 copyrightYear: 2018
 
@@ -31,11 +31,13 @@ jdbc:
 
   type: mysql
   driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://120.76.79.198:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  url: jdbc:mysql://120.78.79.198:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
   username: root
-  password: 13437823887
+  password: Android_13437823887
   testSql: SELECT 1
-
+file:
+upload:
+path: /File/File/apache-tomcat-8.0.32/webapps/
 #
 #  # Oracle 数据库配置
 #  type: oracle

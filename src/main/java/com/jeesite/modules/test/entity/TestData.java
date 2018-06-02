@@ -3,20 +3,20 @@
  */
 package com.jeesite.modules.test.entity;
 
-import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.jeesite.common.mybatis.annotation.JoinTable;
-import com.jeesite.common.mybatis.annotation.JoinTable.Type;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jeesite.modules.sys.entity.User;
-import com.jeesite.modules.sys.entity.Office;
-import java.util.List;
 import com.jeesite.common.collect.ListUtils;
-
 import com.jeesite.common.entity.DataEntity;
 import com.jeesite.common.mybatis.annotation.Column;
+import com.jeesite.common.mybatis.annotation.JoinTable;
+import com.jeesite.common.mybatis.annotation.JoinTable.Type;
 import com.jeesite.common.mybatis.annotation.Table;
 import com.jeesite.common.mybatis.mapper.query.QueryType;
+import com.jeesite.modules.sys.entity.Office;
+import com.jeesite.modules.sys.entity.User;
+import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 测试数据Entity
@@ -221,5 +221,7 @@ public class TestData extends DataEntity<TestData> {
 	public void setTestDataChildList(List<TestDataChild> testDataChildList) {
 		this.testDataChildList = testDataChildList;
 	}
+
+
 	
 }

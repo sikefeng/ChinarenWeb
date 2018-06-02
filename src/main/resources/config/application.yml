@@ -5,12 +5,34 @@ server:
   tomcat:
   uri-encoding: UTF-8
 
-spring:
+#spring:
+#
+#  profiles:
+#    active: default
+#
+#  main:
+#    banner-mode: "off"
+#
+#debug: true
 
-  profiles:
-    active: default
-    
-  main:
-    banner-mode: "off"
+# 数据库连接
+jdbc:
 
-debug: true
+  # Mysql 数据库配置
+#  type: mysql
+#  driver: com.mysql.jdbc.Driver
+#  url: jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+#  username: root
+#  password: 123456
+#  testSql: SELECT 1
+
+  type: mysql
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://120.78.79.198:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  username: root
+  password: Android_13437823887
+  testSql: SELECT 1
+
+
+
+
